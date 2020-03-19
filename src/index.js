@@ -111,35 +111,6 @@ function expressionCalculator(expr) {
       return brackets.replace('(' + innerBrackets + ')', result);
   }
 
-    function doSmall(string, opens, closes) {
-        let simpleBrackets = string.substring(opens, closes + opens + 2);
-        let res = string.replace(simpleBrackets, getInnerBracketsResult(simpleBrackets));
-        return res;
-    }
-
-    function rowBrackets(str) {
-      let open = str.indexOf('(');
-      let nextOpen = str.substr(open+1).indexOf('(');
-      let nextClose = str.substr(open+1).indexOf(')');
-      let result;
-      if (nextOpen == -1 && nextClose == -1) {
-        result = '' + simpleCalc(str);
-      } else if (nextClose < nextOpen || nextOpen == -1) {
-        result = rowBrackets(doSmall(str, open, nextClose));
-      } else if (nextOpen < nextClose) {
-        let lastClose = str.lastIndexOf(')');
-        let prevLastClose = str.slice(0, lastClose).lastIndexOf(')');
-        let lastOpen = str.lastIndexOf('(');
-        if (lastOpen < prevLastClose) {
-            result = rowBrackets(doSmall(str, lastOpen, lastClose));
-        } else {
-            let complexBrackets = str.substring(open + 1, lastClose);
-            result = str.replace('(' + complexBrackets + ')', simpleCalc(rowBrackets(complexBrackets)));
-        }
-      }
-      return result;
-  }
-
   function calcComplex(ss) {
       let firstClose = ss.indexOf(')');
       let lastOpen = ss.slice(0,firstClose).lastIndexOf('(');
